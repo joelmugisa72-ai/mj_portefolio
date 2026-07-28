@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolion - Onglets</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #f4f4f4;
+      color: #222;
+    }
+
+    .header {
+      background: #fff;
+      padding: 16px 24px;
+      border-bottom: 1px solid #ddd;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.08);
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .tabs {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 190px;
+      background: #f9f9f9;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #e5e5e5;
+    }
+
+    .tab {
+      padding: 12px 16px;
+      border: none;
+      background: #ddd;
+      cursor: pointer;
+      border-radius: 6px;
+      font-weight: bold;
+      text-align: left;
+    }
+
+    .tab.active {
+      background: #007bff;
+      color: white;
+    }
+
+    .panel {
+      display: none;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: #fafafa;
+      flex: 1;
+      min-height: 300px;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .home-layout {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .intro-card {
+      flex: 1.4;
+      background: linear-gradient(135deg, #ffffff, #f3f7ff);
+      padding: 24px;
+      border-radius: 16px;
+      border: 1px solid #dfe9ff;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+    }
+
+    .intro-card h2 {
+      margin-top: 0;
+      color: #0f4c81;
+      font-size: 28px;
+    }
+
+    .intro-card p {
+      line-height: 1.7;
+      color: #444;
+      font-size: 16px;
+      margin: 10px 0;
+    }
+
+    .profile-card {
+      flex: 0.8;
+      min-width: 240px;
+      background: #0f4c81;
+      color: white;
+      padding: 24px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(15, 76, 129, 0.22);
+    }
+
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid rgba(255,255,255,0.8);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .profile-card h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+
+    .profile-card p {
+      margin: 0;
+      line-height: 1.6;
+      opacity: 0.95;
+    }
+
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #0f4c81;
+      color: white;
+      text-decoration: none;
+      transition: transform 0.2s ease, background 0.2s ease;
+      padding: 8px;
+    }
+
+    .social-links img {
+      width: 24px;
+      height: 24px;
+      display: block;
+      filter: brightness(0) invert(1);
+    }
+
+    .social-links a:hover {
+      transform: translateY(-2px);
+      background: #0b3b63;
+    }
+
+    .cv-button {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 10px 18px;
+      background: #0f4c81;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background 0.2s ease;
+    }
+
+    .cv-button:hover {
+      background: #0b3b63;
+    }
+
+    .history-layout {
+      display: grid;
+      gap: 20px;
+    }
+
+    .history-card {
+      background: linear-gradient(135deg, #ffffff, #f4f8ff);
+      border: 1px solid #dfe9ff;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    }
+
+    .history-card h2 {
+      margin-top: 0;
+      color: #0f4c81;
+      font-size: 26px;
+    }
+
+    .history-card h3 {
+      margin-bottom: 8px;
+      color: #1b5e9f;
+      font-size: 18px;
+    }
+
+    .history-card p {
+      line-height: 1.8;
+      color: #444;
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .read-more {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 10px 16px;
+      background: #0f4c81;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background 0.2s ease;
+    }
+
+    .read-more:hover {
+      background: #0b3b63;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .skill-card {
+      background: linear-gradient(135deg, #ffffff, #f5f9ff);
+      border: 1px solid #dfe9ff;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .skill-icon {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 14px;
+      border-radius: 14px;
+      background: #0f4c81;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    .skill-card h3 {
+      margin: 0 0 10px;
+      color: #0f4c81;
+      font-size: 18px;
+    }
+
+    .skill-card p {
+      margin: 0;
+      line-height: 1.7;
+      color: #555;
+      font-size: 15px;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #0f4c81;
+    }
+
+    .timeline-item {
+      position: relative;
+      background: linear-gradient(135deg, #ffffff, #f4f8ff);
+      border: 1px solid #dfe9ff;
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-left: 10px;
+      box-shadow: 0 5px 14px rgba(0,0,0,0.04);
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -18px;
+      top: 20px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #0f4c81;
+      border: 3px solid #fff;
+    }
+
+    .timeline-item h3 {
+      margin: 0 0 6px;
+      color: #0f4c81;
+      font-size: 18px;
+    }
+
+    .timeline-item p {
+      margin: 0;
+      line-height: 1.7;
+      color: #555;
+    }
+
+    .contact-card {
+      background: linear-gradient(135deg, #ffffff, #f4f8ff);
+      border: 1px solid #dfe9ff;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    }
+
+    .contact-card h2 {
+      margin-top: 0;
+      color: #0f4c81;
+      font-size: 26px;
+    }
+
+    .contact-card p {
+      margin-top: 0;
+      color: #555;
+      line-height: 1.7;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .contact-form label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      padding: 10px 12px;
+      border: 1px solid #cfdff2;
+      border-radius: 8px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: #0f4c81;
+      box-shadow: 0 0 0 2px rgba(15, 76, 129, 0.12);
+    }
+
+    .contact-form button {
+      align-self: flex-start;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      background: #0f4c81;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .contact-form button:hover {
+      background: #0b3b63;
+    }
+
+    .footer {
+      max-width: 1200px;
+      margin: 20px auto 30px;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px 24px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .footer-links a {
+      color: #0f4c81;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .footer-socials a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #0f4c81;
+      padding: 7px;
+    }
+
+    .footer-socials img {
+      width: 20px;
+      height: 20px;
+      display: block;
+      filter: brightness(0) invert(1);
+    }
+
+    @media (max-width: 900px) {
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Mon Portfolion</h1>
+  </div>
+
+  <div class="container">
+    <div class="tabs">
+      <button class="tab active" data-tab="accueil">Accueil</button>
+      <button class="tab" data-tab="histoire">A propos de moi</button>
+      <button class="tab" data-tab="competences">Competences</button>
+      <button class="tab" data-tab="parcour">Parcour school</button>
+      <button class="tab" data-tab="contact">Contact</button>
+    </div>
+
+    <div id="accueil" class="panel active">
+      <div class="home-layout">
+        <div class="intro-card">
+          <h2>Bonjour !</h2>
+          <p>Moi c’est <strong>Joël</strong></p>
+          <p>
+            Ingénieur en formation, pour combattre dans l’ombre du monde numérique,
+            là où la logique rencontre l’invisible. Initié aux secrets de la cybersécurité,
+            j’apprends à franchir les barrières, à analyser les mécanismes cachés et à
+            dompter l’imprévisible. Mon esprit ne cherche pas seulement à comprendre les
+            systèmes : il en déchiffre l’âme pour en devenir le gardien.
+          </p>
+
+          <div class="social-links">
+            <a href="https://wa.me/" target="_blank" aria-label="WhatsApp">
+              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/whatsapp.svg" alt="WhatsApp" />
+            </a>
+            <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/facebook.svg" alt="Facebook" />
+            </a>
+            <a href="https://github.com" target="_blank" aria-label="GitHub">
+              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/github.svg" alt="GitHub" />
+            </a>
+            <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
+              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/linkedin.svg" alt="LinkedIn" />
+            </a>
+            <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" />
+            </a>
+          </div>
+
+          <a class="cv-button" href="cv.pdf" download>Télécharger mon CV</a>
+        </div>
+
+        <div class="profile-card">
+          <div class="profile-avatar">
+            <img src="img/me.png" alt="Photo de profil" />
+          </div>
+          <h3>Profil</h3>
+          <p>Place réservée pour votre photo, vos réseaux ou votre identité professionnelle.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="histoire" class="panel">
+      <div class="history-layout">
+        <div class="history-card">
+          <h2>À propos de moi</h2>
+          <h3>JE SUIS ÉTUDIANT À L’UCBC, EN SCIENCE APPLIQUÉE GÉNIE INFORMATIQUE</h3>
+          <p>
+            Profil : Je suis en formation niveau 2 pour une carrière d’ingénieur futur en
+            cybersécurité. Je possède un esprit logique, curieux et méthodique. J’aime créer,
+            tester et comprendre les systèmes informatiques, ainsi que résoudre des problèmes
+            avec rigueur et créativité.
+          </p>
+          <a class="read-more" href="https://example.com" target="_blank">Lire plus</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="competences" class="panel">
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-icon">💻</div>
+          <h3>Informatique & Tech</h3>
+          <p>Passionné par le développement web (Java, Python, PHP, SQL) et les réseaux.</p>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-icon">🧪</div>
+          <h3>Sciences</h3>
+          <p>Attiré par la physique, la mécanique et la logique mathématique.</p>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-icon">🎮</div>
+          <h3>Loisirs</h3>
+          <p>Amateur de gaming (GTA V), d’analyse de statistiques sportives (football) et de création graphique (Photoshop).</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="parcour" class="panel">
+      <div class="timeline">
+        <div class="timeline-item">
+          <h3>2024 – 2025</h3>
+          <p>Obtention du Baccalauréat</p>
+          <p><em>Fin des études secondaires</em></p>
+        </div>
+
+        <div class="timeline-item">
+          <h3>2025 – 2026</h3>
+          <p>1ère Année de Licence (L1)</p>
+          <p><em>Informatique & Sciences Physiques</em></p>
+        </div>
+      </div>
+    </div>
+
+    <div id="fonction" class="panel">
+      <h2>Fonction</h2>
+      <p>Décrivez votre fonction ici.</p>
+    </div>
+
+    <div id="contact" class="panel">
+      <div class="contact-card">
+        <h2>Contact</h2>
+        <p>Remplissez ce formulaire pour me contacter. Les informations seront envoyées à votre adresse e-mail.</p>
+
+        <form class="contact-form" id="contactForm">
+          <div class="form-row">
+            <label>
+              Nom
+              <input type="text" name="name" placeholder="Votre nom" required />
+            </label>
+            <label>
+              Email
+              <input type="email" name="email" placeholder="Votre email" required />
+            </label>
+          </div>
+
+          <div class="form-row">
+            <label>
+              Numéro de téléphone
+              <input type="tel" name="phone" placeholder="Votre téléphone" />
+            </label>
+            <label>
+              Sujet
+              <input type="text" name="subject" placeholder="Objet du message" required />
+            </label>
+          </div>
+
+          <label>
+            Message
+            <textarea name="message" rows="6" placeholder="Écrivez votre message ici..." required></textarea>
+          </label>
+
+          <button type="submit">Envoyer</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-links">
+      <a href="#" onclick="showTab('accueil')">Accueil</a>
+      <a href="#" onclick="showTab('histoire')">A propos de moi</a>
+      <a href="#" onclick="showTab('competences')">Compétences</a>
+      <a href="#" onclick="showTab('parcour')">Parcour school</a>
+    </div>
+
+    <div class="footer-socials">
+      <a href="https://wa.me/" target="_blank" aria-label="WhatsApp">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/whatsapp.svg" alt="WhatsApp" />
+      </a>
+      <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/facebook.svg" alt="Facebook" />
+      </a>
+      <a href="https://github.com" target="_blank" aria-label="GitHub">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/github.svg" alt="GitHub" />
+      </a>
+      <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/linkedin.svg" alt="LinkedIn" />
+      </a>
+      <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" />
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const panels = document.querySelectorAll('.panel');
+
+    function showTab(target) {
+      tabs.forEach(btn => btn.classList.remove('active'));
+      panels.forEach(panel => panel.classList.remove('active'));
+
+      const selectedTab = document.querySelector(`.tab[data-tab="${target}"]`);
+      const selectedPanel = document.getElementById(target);
+
+      if (selectedTab) selectedTab.classList.add('active');
+      if (selectedPanel) selectedPanel.classList.add('active');
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        showTab(tab.dataset.tab);
+      });
+    });
+
+    const contactForm = document.getElementById('contactForm');
+
+    if (contactForm) {
+      contactForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(contactForm);
+        const name = formData.get('name')?.toString().trim() || '';
+        const email = formData.get('email')?.toString().trim() || '';
+        const phone = formData.get('phone')?.toString().trim() || '';
+        const subject = formData.get('subject')?.toString().trim() || 'Nouveau message';
+        const message = formData.get('message')?.toString().trim() || '';
+
+        const body = `Nom: ${name}%0D%0AEmail: ${email}%0D%0ATéléphone: ${phone}%0D%0ASujet: ${subject}%0D%0A%0D%0AMessage:%0D%0A${message}`;
+
+        window.location.href = `mailto:joelunyuthi@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+        contactForm.reset();
+      });
+    }
+  </script>
+</body>
+</html>
