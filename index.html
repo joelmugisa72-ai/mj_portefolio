@@ -3,686 +3,730 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolion - Onglets</title>
+  <meta name="description" content="Portfolio premium de Joël Mugisa Unyuthi, étudiant en informatique et cybersécurité." />
+  <title>Joël | Portfolio Premium</title>
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
+    :root {
+      --bg: #0a0d12;
+      --bg-2: #0f1419;
+      --panel: rgba(19, 24, 31, 0.9);
+      --panel-strong: #151b22;
+      --panel-soft: #1b222a;
+      --panel-alt: #111821;
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #edf3ff;
+      --muted: #a8b2c5;
+      --yellow: #f0b90b;
+      --yellow-soft: rgba(240, 185, 11, 0.15);
+      --green: #0ecb81;
+      --green-soft: rgba(14, 203, 129, 0.14);
+      --red: #ff5c7a;
+      --shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+      --radius: 24px;
+      --container: 1180px;
+      --transition: all 0.3s ease;
     }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
-      margin: 0;
-      background: #f4f4f4;
-      color: #222;
-    }
-
-    .header {
-      background: #fff;
-      padding: 16px 24px;
-      border-bottom: 1px solid #ddd;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    .header h1 {
-      margin: 0;
-      font-size: 24px;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 20px auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.08);
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
-    }
-
-    .tabs {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      min-width: 190px;
-      background: #f9f9f9;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid #e5e5e5;
-    }
-
-    .tab {
-      padding: 12px 16px;
-      border: none;
-      background: #ddd;
-      cursor: pointer;
-      border-radius: 6px;
-      font-weight: bold;
-      text-align: left;
-    }
-
-    .tab.active {
-      background: #007bff;
-      color: white;
-    }
-
-    .panel {
-      display: none;
-      padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      background: #fafafa;
-      flex: 1;
-      min-height: 300px;
-    }
-
-    .panel.active {
-      display: block;
-    }
-
-    .home-layout {
-      display: flex;
-      gap: 24px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .intro-card {
-      flex: 1.4;
-      background: linear-gradient(135deg, #ffffff, #f3f7ff);
-      padding: 24px;
-      border-radius: 16px;
-      border: 1px solid #dfe9ff;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
-    }
-
-    .intro-card h2 {
-      margin-top: 0;
-      color: #0f4c81;
-      font-size: 28px;
-    }
-
-    .intro-card p {
+      font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(240, 185, 11, 0.08), transparent 18%),
+        radial-gradient(circle at top right, rgba(14, 203, 129, 0.06), transparent 20%),
+        linear-gradient(180deg, var(--bg), var(--bg-2));
+      color: var(--text);
       line-height: 1.7;
-      color: #444;
-      font-size: 16px;
-      margin: 10px 0;
+      overflow-x: hidden;
     }
 
-    .profile-card {
-      flex: 0.8;
-      min-width: 240px;
-      background: #0f4c81;
-      color: white;
-      padding: 24px;
-      border-radius: 16px;
-      text-align: center;
-      box-shadow: 0 8px 20px rgba(15, 76, 129, 0.22);
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 34px 34px;
+      pointer-events: none;
+      mask-image: radial-gradient(circle at center, black 45%, transparent 100%);
+      opacity: 0.45;
     }
 
-    .profile-avatar {
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 16px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 4px solid rgba(255,255,255,0.8);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    button, input, textarea { font: inherit; }
 
-    .profile-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+    .container { width: min(var(--container), calc(100% - 32px)); margin: 0 auto; }
+    .section { padding: 92px 0; }
 
-    .profile-card h3 {
-      margin: 0 0 8px;
-      font-size: 20px;
-    }
-
-    .profile-card p {
-      margin: 0;
-      line-height: 1.6;
-      opacity: 0.95;
-    }
-
-    .social-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .social-links a {
+    .eyebrow {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: #0f4c81;
-      color: white;
-      text-decoration: none;
-      transition: transform 0.2s ease, background 0.2s ease;
-      padding: 8px;
+      gap: 10px;
+      color: var(--yellow);
+      font-size: 0.76rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 18px;
     }
 
-    .social-links img {
+    .eyebrow::before {
+      content: "";
+      display: inline-block;
       width: 24px;
-      height: 24px;
-      display: block;
-      filter: brightness(0) invert(1);
+      height: 1px;
+      background: var(--yellow);
     }
 
-    .social-links a:hover {
-      transform: translateY(-2px);
-      background: #0b3b63;
+    .section-title {
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.05em;
+      margin-bottom: 22px;
+      max-width: 720px;
     }
 
-    .cv-button {
-      display: inline-block;
-      margin-top: 16px;
-      padding: 10px 18px;
-      background: #0f4c81;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-      transition: background 0.2s ease;
+    .muted { color: var(--muted); }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: rgba(10, 13, 18, 0.72);
+      backdrop-filter: blur(22px);
+      border-bottom: 1px solid var(--border);
     }
 
-    .cv-button:hover {
-      background: #0b3b63;
+    .nav {
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+      min-height: 78px;
     }
 
-    .history-layout {
-      display: grid;
-      gap: 20px;
+    .brand {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-weight: 800; letter-spacing: -0.04em;
     }
 
-    .history-card {
-      background: linear-gradient(135deg, #ffffff, #f4f8ff);
-      border: 1px solid #dfe9ff;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    .brand-mark {
+      width: 39px; height: 39px; border-radius: 12px;
+      display: grid; place-items: center;
+      color: #111; background: linear-gradient(135deg, var(--yellow), #ffd75f);
+      box-shadow: 0 12px 26px rgba(240, 185, 11, 0.25);
     }
 
-    .history-card h2 {
-      margin-top: 0;
-      color: #0f4c81;
-      font-size: 26px;
+    .nav-menu {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 10px; border: 1px solid var(--border);
+      border-radius: 999px; background: rgba(255, 255, 255, 0.02);
     }
 
-    .history-card h3 {
-      margin-bottom: 8px;
-      color: #1b5e9f;
-      font-size: 18px;
+    .nav-link {
+      padding: 10px 14px; font-size: 0.9rem; font-weight: 600; color: var(--muted);
+      border-radius: 999px; transition: var(--transition);
     }
 
-    .history-card p {
-      line-height: 1.8;
-      color: #444;
-      margin: 0;
-      font-size: 16px;
+    .nav-link:hover, .nav-link.active {
+      color: var(--text); background: rgba(255,255,255,0.04); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
     }
 
-    .read-more {
-      display: inline-block;
-      margin-top: 16px;
-      padding: 10px 16px;
-      background: #0f4c81;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-      transition: background 0.2s ease;
+    .nav-cta {
+      padding: 12px 18px; border-radius: 12px; background: linear-gradient(135deg, var(--yellow), #f6cf5a);
+      color: #111; font-weight: 800; box-shadow: 0 18px 30px rgba(240, 185, 11, 0.18); transition: var(--transition);
+    }
+    .nav-cta:hover { transform: translateY(-2px); }
+
+    .nav-toggle {
+      display: none; width: 46px; height: 46px; border-radius: 12px; background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border); cursor: pointer; position: relative;
     }
 
-    .read-more:hover {
-      background: #0b3b63;
+    .nav-toggle span, .nav-toggle::before, .nav-toggle::after {
+      content: ""; position: absolute; left: 12px; width: 22px; height: 2px; background: var(--text); border-radius: 999px; transition: var(--transition);
     }
+    .nav-toggle span { top: 22px; }
+    .nav-toggle::before { top: 16px; }
+    .nav-toggle::after { top: 28px; }
+    .nav-toggle.is-open span { opacity: 0; }
+    .nav-toggle.is-open::before { transform: rotate(45deg); top: 22px; }
+    .nav-toggle.is-open::after { transform: rotate(-45deg); top: 22px; }
+
+    .hero { padding-top: 70px; }
+
+    .hero-grid {
+      display: grid; grid-template-columns: 1.18fr 0.82fr; gap: 36px; align-items: center;
+    }
+
+    .hero-copy h1 {
+      font-size: clamp(3rem, 5vw, 5.1rem);
+      line-height: 0.92; letter-spacing: -0.07em; font-weight: 900;
+      margin-bottom: 24px;
+    }
+
+    .dynamic-text {
+      display: inline-block; min-height: 1.1em; color: var(--yellow);
+    }
+
+    .cursor {
+      display: inline-block; width: 0.09em; height: 1em; background: var(--yellow); vertical-align: middle;
+      animation: blink 0.8s infinite; margin-left: 7px;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; }
+    }
+
+    .hero-copy p {
+      max-width: 630px; color: var(--muted); font-size: 1.06rem; margin-bottom: 28px;
+    }
+
+    .hero-actions {
+      display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 28px;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; padding: 14px 22px; border-radius: 14px;
+      font-weight: 800; transition: var(--transition); border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--yellow), #f8d05c); color: #111;
+      box-shadow: 0 18px 30px rgba(240, 185, 11, 0.18);
+    }
+    .btn-primary:hover { transform: translateY(-2px); }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.02); border-color: var(--border); color: var(--text);
+    }
+    .btn-secondary:hover {
+      border-color: rgba(240, 185, 11, 0.4); transform: translateY(-2px);
+    }
+
+    .hero-stats {
+      display: flex; flex-wrap: wrap; gap: 14px; list-style: none;
+    }
+
+    .hero-stats li {
+      display: inline-flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 12px;
+      background: rgba(255,255,255,0.02); border: 1px solid var(--border); color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .hero-stats strong { color: var(--text); font-size: 1rem; }
+
+    .hero-card-wrap {
+      position: relative; border-radius: var(--radius); border: 1px solid var(--border); background: rgba(26,31,38,0.9); padding: 20px; box-shadow: var(--shadow);
+    }
+
+    .hero-card-wrap::before {
+      content: ""; position: absolute; inset: -1px; border-radius: inherit; background: linear-gradient(135deg, rgba(240,185,11,0.35), transparent 35%, rgba(14,203,129,0.16)); z-index: 0;
+    }
+
+    .hero-card {
+      position: relative; z-index: 1; border-radius: 22px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);
+      background: linear-gradient(145deg, rgba(240, 185, 11, 0.08), rgba(17,24,33,0.88) 38%, rgba(17,24,33,0.92));
+      padding: 18px;
+    }
+
+    .portrait {
+      overflow: hidden; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 18px;
+      background: #0d1318;
+    }
+
+    .portrait img {
+      width: 100%; aspect-ratio: 1 / 1.08; object-fit: cover;
+    }
+
+    .hero-card h3 { font-size: 1.5rem; margin-bottom: 8px; letter-spacing: -0.03em; }
+    .role-badge {
+      display: inline-flex; padding: 7px 12px; border-radius: 999px; background: var(--yellow-soft); color: var(--yellow);
+      border: 1px solid rgba(240,185,11,0.2); font-weight: 700; margin-bottom: 12px; font-size: 0.8rem;
+    }
+
+    .mini-tags {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px;
+    }
+
+    .mini-tags span {
+      padding: 7px 10px; border-radius: 999px; border: 1px solid var(--border); background: rgba(255,255,255,0.02);
+      color: var(--text); font-size: 0.75rem; font-weight: 700;
+    }
+    .mini-tags .good { color: var(--green); background: var(--green-soft); border-color: rgba(14,203,129,0.2); }
+    .mini-tags .warn { color: var(--yellow); background: var(--yellow-soft); border-color: rgba(240,185,11,0.2); }
+
+    .panel-card {
+      background: linear-gradient(180deg, rgba(21,27,34,0.98), rgba(15,19,24,0.96));
+      border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 30px;
+    }
+
+    .about-grid, .contact-grid {
+      display: grid; grid-template-columns: 1.12fr 0.88fr; gap: 26px; align-items: start;
+    }
+
+    .about-copy p {
+      color: var(--muted); font-size: 1.03rem; margin-bottom: 18px;
+    }
+
+    .info-stack {
+      display: grid; gap: 18px;
+    }
+
+    .info-box {
+      padding: 22px; border-radius: 18px; border: 1px solid var(--border); background: rgba(255,255,255,0.02);
+    }
+    .info-box h3 { margin-bottom: 10px; font-size: 1.08rem; }
+    .info-box p { color: var(--muted); }
 
     .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 28px;
     }
 
     .skill-card {
-      background: linear-gradient(135deg, #ffffff, #f5f9ff);
-      border: 1px solid #dfe9ff;
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.05);
-      text-align: center;
+      position: relative; padding: 24px 22px; border-radius: 22px; border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(27,34,42,0.94), rgba(20,24,31,0.95));
+      transition: var(--transition); overflow: hidden;
     }
+    .skill-card::before {
+      content: ""; position: absolute; inset: 0 auto auto 0; width: 100%; height: 2px; background: linear-gradient(90deg, var(--yellow), transparent);
+      opacity: 0; transition: var(--transition);
+    }
+    .skill-card:hover { transform: translateY(-6px); border-color: rgba(240,185,11,0.4); box-shadow: var(--shadow); }
+    .skill-card:hover::before { opacity: 1; }
 
     .skill-icon {
-      width: 60px;
-      height: 60px;
-      margin: 0 auto 14px;
-      border-radius: 14px;
-      background: #0f4c81;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
+      width: 62px; height: 62px; border-radius: 16px; display: grid; place-items: center; font-size: 1.8rem;
+      background: linear-gradient(135deg, rgba(240,185,11,0.16), rgba(14,203,129,0.1)); border: 1px solid rgba(255,255,255,0.08); margin-bottom: 18px;
     }
 
-    .skill-card h3 {
-      margin: 0 0 10px;
-      color: #0f4c81;
-      font-size: 18px;
-    }
+    .skill-card h3 { margin-bottom: 12px; font-size: 1.15rem; }
+    .skill-card p { color: var(--muted); margin-bottom: 18px; }
 
-    .skill-card p {
-      margin: 0;
-      line-height: 1.7;
-      color: #555;
-      font-size: 15px;
+    .skill-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .skill-tags span {
+      padding: 7px 10px; border-radius: 999px; border: 1px solid var(--border); background: rgba(255,255,255,0.02); color: var(--text);
+      font-size: 0.74rem; font-weight: 700;
     }
 
     .timeline {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      position: relative;
-      padding-left: 20px;
+      position: relative; display: grid; gap: 18px; margin-top: 26px;
     }
 
     .timeline::before {
-      content: '';
-      position: absolute;
-      left: 8px;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background: #0f4c81;
+      content: ""; position: absolute; left: 15px; top: 10px; bottom: 10px; width: 2px; background: rgba(240,185,11,0.25);
     }
 
     .timeline-item {
-      position: relative;
-      background: linear-gradient(135deg, #ffffff, #f4f8ff);
-      border: 1px solid #dfe9ff;
-      border-radius: 14px;
-      padding: 16px 18px;
-      margin-left: 10px;
-      box-shadow: 0 5px 14px rgba(0,0,0,0.04);
+      position: relative; margin-left: 38px; padding: 22px 20px; border: 1px solid var(--border); border-radius: 18px;
+      background: rgba(255,255,255,0.02);
     }
 
     .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: -18px;
-      top: 20px;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: #0f4c81;
-      border: 3px solid #fff;
+      content: ""; position: absolute; left: -28px; top: 24px; width: 12px; height: 12px; border-radius: 50%; background: var(--yellow);
+      box-shadow: 0 0 0 5px rgba(240,185,11,0.12);
     }
 
-    .timeline-item h3 {
-      margin: 0 0 6px;
-      color: #0f4c81;
-      font-size: 18px;
-    }
+    .timeline-item h3 { margin-bottom: 6px; font-size: 1.1rem; }
+    .timeline-item p { color: var(--muted); }
 
-    .timeline-item p {
-      margin: 0;
-      line-height: 1.7;
-      color: #555;
+    .contact-summary .panel-card { min-height: 100%; }
+    .contact-summary p { color: var(--muted); }
+    .contact-list { list-style: none; display: grid; gap: 12px; margin-top: 20px; }
+    .contact-list li {
+      display: flex; gap: 12px; align-items: center; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02); color: var(--muted);
     }
-
-    .contact-card {
-      background: linear-gradient(135deg, #ffffff, #f4f8ff);
-      border: 1px solid #dfe9ff;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.05);
-    }
-
-    .contact-card h2 {
-      margin-top: 0;
-      color: #0f4c81;
-      font-size: 26px;
-    }
-
-    .contact-card p {
-      margin-top: 0;
-      color: #555;
-      line-height: 1.7;
-    }
+    .contact-list strong { color: var(--text); }
 
     .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+      display: grid; gap: 16px; padding: 22px; border: 1px solid var(--border); border-radius: 22px; background: rgba(255,255,255,0.02);
     }
 
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
+    .form-row { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+    .field { display: grid; gap: 8px; }
+    .field span { font-weight: 700; }
+    .field input, .field textarea {
+      width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border); background: rgba(10,13,18,0.9); color: var(--text);
+      transition: var(--transition);
+    }
+    .field input:focus, .field textarea:focus {
+      outline: none; border-color: rgba(240,185,11,0.7); box-shadow: 0 0 0 4px rgba(240,185,11,0.1);
     }
 
-    .contact-form label {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      color: #333;
-      font-weight: bold;
+    .form-submit {
+      justify-self: flex-start; padding: 14px 22px; border-radius: 12px; border: none; cursor: pointer; background: linear-gradient(135deg, var(--yellow), #f7ce57); color: #111; font-weight: 800; box-shadow: 0 18px 30px rgba(240,185,11,0.18); transition: var(--transition);
+    }
+    .form-submit:hover { transform: translateY(-2px); }
+
+    .site-footer {
+      border-top: 1px solid var(--border); background: rgba(9,12,15,0.8); padding: 30px 0 42px;
     }
 
-    .contact-form input,
-    .contact-form textarea {
-      padding: 10px 12px;
-      border: 1px solid #cfdff2;
-      border-radius: 8px;
-      font-size: 15px;
-      outline: none;
+    .footer-inner {
+      display: flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap;
     }
 
-    .contact-form input:focus,
-    .contact-form textarea:focus {
-      border-color: #0f4c81;
-      box-shadow: 0 0 0 2px rgba(15, 76, 129, 0.12);
-    }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 18px; color: var(--muted); }
+    .footer-links a:hover { color: var(--text); }
 
-    .contact-form button {
-      align-self: flex-start;
-      padding: 10px 18px;
-      border: none;
-      border-radius: 8px;
-      background: #0f4c81;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
+    .social-links { display: flex; flex-wrap: wrap; gap: 12px; }
+    .social-links a {
+      width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border); transition: var(--transition);
     }
+    .social-links a:hover { transform: translateY(-3px); border-color: rgba(240,185,11,0.4); }
+    .social-links img { width: 18px; height: 18px; filter: brightness(0) invert(1); }
 
-    .contact-form button:hover {
-      background: #0b3b63;
-    }
-
-    .footer {
-      max-width: 1200px;
-      margin: 20px auto 30px;
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 20px 24px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.08);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      text-align: center;
-    }
-
-    .footer-links {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-    }
-
-    .footer-links a {
-      color: #0f4c81;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .footer-links a:hover {
-      text-decoration: underline;
-    }
-
-    .footer-socials {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .footer-socials a {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: #0f4c81;
-      padding: 7px;
-    }
-
-    .footer-socials img {
-      width: 20px;
-      height: 20px;
-      display: block;
-      filter: brightness(0) invert(1);
-    }
-
-    @media (max-width: 900px) {
-      .skills-grid {
-        grid-template-columns: 1fr;
+    @media (max-width: 980px){
+      .hero-grid, .about-grid, .contact-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .nav { position: relative; }
+      .nav-toggle { display: block; }
+      .nav-menu {
+        position: absolute; left: 0; right: 0; top: calc(100% + 12px); display: none; flex-direction: column; align-items: stretch; padding: 14px; border-radius: 20px; background: rgba(17,22,28,0.96); border-color: var(--border);
       }
+      .nav-menu.is-open { display: flex; }
+      .nav-link { width: 100%; }
+      .nav-cta { display: none; }
+    }
 
-      .form-row {
-        grid-template-columns: 1fr;
-      }
+    @media (max-width: 640px){
+      .section { padding: 72px 0; }
+      .form-row, .skills-grid { grid-template-columns: 1fr; }
+      .hero-copy h1 { font-size: 2.7rem; }
+      .panel-card { padding: 22px 18px; }
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1>Mon Portfolion</h1>
-  </div>
+  <header class="site-header">
+    <div class="container nav">
+      <a href="#accueil" class="brand" aria-label="Accueil">
+        <span class="brand-mark">J</span>
+        <span>Joël Mugisa</span>
+      </a>
 
-  <div class="container">
-    <div class="tabs">
-      <button class="tab active" data-tab="accueil">Accueil</button>
-      <button class="tab" data-tab="histoire">A propos de moi</button>
-      <button class="tab" data-tab="competences">Competences</button>
-      <button class="tab" data-tab="parcour">Parcour school</button>
-      <button class="tab" data-tab="contact">Contact</button>
+      <button class="nav-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
+        <span></span>
+      </button>
+
+      <nav class="nav-menu" aria-label="Menu principal">
+        <a href="#accueil" class="nav-link active">Accueil</a>
+        <a href="#a-propos" class="nav-link">À propos</a>
+        <a href="#competences" class="nav-link">Compétences</a>
+        <a href="#parcours" class="nav-link">Parcours</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <a href="#contact" class="nav-cta">Contact</a>
     </div>
+  </header>
 
-    <div id="accueil" class="panel active">
-      <div class="home-layout">
-        <div class="intro-card">
-          <h2>Bonjour !</h2>
-          <p>Moi c’est <strong>Joël</strong></p>
+  <main>
+    <section id="accueil" class="hero section">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Ingénieur en formation</p>
+          <h1>
+            Je suis
+            <span class="dynamic-text" data-texts='["Joël", "un étudiant en informatique", "un passionné de cybersécurité", "un créatif du digital"]'></span>
+            <span class="cursor" aria-hidden="true"></span>
+          </h1>
           <p>
-            Ingénieur en formation, pour combattre dans l’ombre du monde numérique,
-            là où la logique rencontre l’invisible. Initié aux secrets de la cybersécurité,
-            j’apprends à franchir les barrières, à analyser les mécanismes cachés et à
-            dompter l’imprévisible. Mon esprit ne cherche pas seulement à comprendre les
-            systèmes : il en déchiffre l’âme pour en devenir le gardien.
+            Moi c’est <strong>Joël</strong>. Ingénieur en formation, pour combattre dans l’ombre du monde numérique,
+            là où la logique rencontre l’invisible. Initié aux secrets de la cybersécurité, j’apprends à franchir
+            les barrières, à analyser les mécanismes cachés et à dompter l’imprévisible.
           </p>
 
-          <div class="social-links">
-            <a href="https://wa.me/" target="_blank" aria-label="WhatsApp">
-              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/whatsapp.svg" alt="WhatsApp" />
-            </a>
-            <a href="https://facebook.com" target="_blank" aria-label="Facebook">
-              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/facebook.svg" alt="Facebook" />
-            </a>
-            <a href="https://github.com" target="_blank" aria-label="GitHub">
-              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/github.svg" alt="GitHub" />
-            </a>
-            <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
-              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/linkedin.svg" alt="LinkedIn" />
-            </a>
-            <a href="https://instagram.com" target="_blank" aria-label="Instagram">
-              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" />
-            </a>
+          <div class="hero-actions">
+            <a href="#contact" class="btn btn-primary">Me contacter</a>
+            <a href="cv.pdf" class="btn btn-secondary" download>Télécharger mon CV</a>
           </div>
 
-          <a class="cv-button" href="cv.pdf" download>Télécharger mon CV</a>
+          <ul class="hero-stats" aria-label="Statistiques principales">
+            <li><strong>+2</strong> ans d’apprentissage</li>
+            <li><strong>3</strong> axes de passion</li>
+            <li><strong>100%</strong> engagé</li>
+          </ul>
         </div>
 
-        <div class="profile-card">
-          <div class="profile-avatar">
-            <img src="img/me.png" alt="Photo de profil" />
+        <div class="hero-card-wrap">
+          <div class="hero-card">
+            <div class="portrait">
+              <img src="img/me.jpg" alt="Portrait de Joël Mugisa Unyuthi" />
+            </div>
+
+            <h3>Joël Mugisa Unyuthi</h3>
+            <span class="role-badge">Étudiant en Informatique</span>
+            <p class="muted">Curieux, logique, créatif et motivé par la cybersécurité, le web et les systèmes.</p>
+
+            <div class="mini-tags">
+              <span class="warn">Cybersécurité</span>
+              <span class="good">Web</span>
+              <span>Réseaux</span>
+            </div>
           </div>
-          <h3>Profil</h3>
-          <p>Place réservée pour votre photo, vos réseaux ou votre identité professionnelle.</p>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div id="histoire" class="panel">
-      <div class="history-layout">
-        <div class="history-card">
-          <h2>À propos de moi</h2>
-          <h3>JE SUIS ÉTUDIANT À L’UCBC, EN SCIENCE APPLIQUÉE GÉNIE INFORMATIQUE</h3>
-          <p>
-            Profil : Je suis en formation niveau 2 pour une carrière d’ingénieur futur en
-            cybersécurité. Je possède un esprit logique, curieux et méthodique. J’aime créer,
-            tester et comprendre les systèmes informatiques, ainsi que résoudre des problèmes
-            avec rigueur et créativité.
-          </p>
-          <a class="read-more" href="https://example.com" target="_blank">Lire plus</a>
+    <section id="a-propos" class="section">
+      <div class="container">
+        <p class="eyebrow">À propos</p>
+        <h2 class="section-title">Je mélange logique, curiosité et créativité dans chaque projet.</h2>
+
+        <div class="about-grid">
+          <article class="panel-card about-copy">
+            <p>
+              Je suis étudiant à l’UCBC, en science appliquée génie informatique. Je possède un esprit logique,
+              curieux et méthodique. J’aime créer, tester et comprendre les systèmes informatiques, ainsi que
+              résoudre des problèmes avec rigueur et créativité.
+            </p>
+            <p>
+              Mon objectif est de développer des compétences solides dans le domaine de la cybersécurité, du web,
+              des réseaux et des technologies modernes. J’aime apprendre en profondeur, expérimenter, et transformer
+              les connaissances en solutions concrètes.
+            </p>
+            <a href="https://example.com" target="_blank" rel="noreferrer" class="btn btn-secondary">Lire plus</a>
+          </article>
+
+          <aside class="info-stack">
+            <div class="info-box">
+              <h3>Profil</h3>
+              <p>Étudiant en informatique, passionné par les systèmes, la sécurité numérique et le développement.</p>
+            </div>
+            <div class="info-box">
+              <h3>Centres d’intérêt</h3>
+              <p>Cybersecurité, développement web, programmation, réseaux, gaming et analyse statistique sportive.</p>
+            </div>
+          </aside>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div id="competences" class="panel">
-      <div class="skills-grid">
-        <div class="skill-card">
-          <div class="skill-icon">💻</div>
-          <h3>Informatique & Tech</h3>
-          <p>Passionné par le développement web (Java, Python, PHP, SQL) et les réseaux.</p>
-        </div>
+    <section id="competences" class="section">
+      <div class="container">
+        <p class="eyebrow">Compétences</p>
+        <h2 class="section-title">Des compétences solides, orientées vers les technologies et l’innovation.</h2>
 
-        <div class="skill-card">
-          <div class="skill-icon">🧪</div>
-          <h3>Sciences</h3>
-          <p>Attiré par la physique, la mécanique et la logique mathématique.</p>
-        </div>
+        <div class="skills-grid">
+          <article class="skill-card">
+            <div class="skill-icon">💻</div>
+            <h3>Informatique & Tech</h3>
+            <p>Passionné par le développement web, la programmation et le fonctionnement des systèmes informatiques.</p>
+            <div class="skill-tags">
+              <span>Java</span>
+              <span>Python</span>
+              <span>PHP</span>
+            </div>
+          </article>
 
-        <div class="skill-card">
-          <div class="skill-icon">🎮</div>
-          <h3>Loisirs</h3>
-          <p>Amateur de gaming (GTA V), d’analyse de statistiques sportives (football) et de création graphique (Photoshop).</p>
+          <article class="skill-card">
+            <div class="skill-icon">🧪</div>
+            <h3>Sciences</h3>
+            <p>Attiré par la logique mathématique, la physique, la mécanique et la compréhension du monde technique.</p>
+            <div class="skill-tags">
+              <span>Physique</span>
+              <span>Maths</span>
+              <span>Analyse</span>
+            </div>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-icon">🎮</div>
+            <h3>Loisirs & Créativité</h3>
+            <p>J’apprécie le gaming stratégique, les statistiques sportives et la création graphique visuelle.</p>
+            <div class="skill-tags">
+              <span>Photoshop</span>
+              <span>Gaming</span>
+              <span>Football</span>
+            </div>
+          </article>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div id="parcour" class="panel">
-      <div class="timeline">
-        <div class="timeline-item">
-          <h3>2024 – 2025</h3>
-          <p>Obtention du Baccalauréat</p>
-          <p><em>Fin des études secondaires</em></p>
-        </div>
+    <section id="parcours" class="section">
+      <div class="container">
+        <p class="eyebrow">Parcours</p>
+        <h2 class="section-title">Mon chemin académique et professionnel.</h2>
 
-        <div class="timeline-item">
-          <h3>2025 – 2026</h3>
-          <p>1ère Année de Licence (L1)</p>
-          <p><em>Informatique & Sciences Physiques</em></p>
+        <div class="timeline">
+          <article class="timeline-item">
+            <h3>2024 – 2025</h3>
+            <p>Obtention du Baccalauréat</p>
+            <p>Fin des études secondaires.</p>
+          </article>
+
+          <article class="timeline-item">
+            <h3>2025 – 2026</h3>
+            <p>1ère Année de Licence (L1)</p>
+            <p>Informatique & Sciences Physiques.</p>
+          </article>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div id="fonction" class="panel">
-      <h2>Fonction</h2>
-      <p>Décrivez votre fonction ici.</p>
-    </div>
+    <section id="contact" class="section">
+      <div class="container">
+        <p class="eyebrow">Contact</p>
+        <h2 class="section-title">Une idée, un projet ou simplement une discussion ?</h2>
 
-    <div id="contact" class="panel">
-      <div class="contact-card">
-        <h2>Contact</h2>
-        <p>Remplissez ce formulaire pour me contacter. Les informations seront envoyées à votre adresse e-mail.</p>
-
-        <form class="contact-form" id="contactForm">
-          <div class="form-row">
-            <label>
-              Nom
-              <input type="text" name="name" placeholder="Votre nom" required />
-            </label>
-            <label>
-              Email
-              <input type="email" name="email" placeholder="Votre email" required />
-            </label>
+        <div class="contact-grid">
+          <div class="contact-summary">
+            <div class="panel-card">
+              <p>Remplissez ce formulaire pour me contacter. Les informations seront envoyées à mon adresse e-mail.</p>
+              <ul class="contact-list">
+                <li><strong>Email</strong> : joelunyuthi@gmail.com</li>
+                <li><strong>Localisation</strong> : Congo / Campus universitaire</li>
+                <li><strong>Disponibilité</strong> : Ouvert aux projets et collaborations</li>
+              </ul>
+            </div>
           </div>
 
-          <div class="form-row">
-            <label>
-              Numéro de téléphone
-              <input type="tel" name="phone" placeholder="Votre téléphone" />
-            </label>
-            <label>
-              Sujet
-              <input type="text" name="subject" placeholder="Objet du message" required />
-            </label>
-          </div>
+          <form class="contact-form" id="contactForm">
+            <div class="form-row">
+              <label class="field">
+                <span>Nom</span>
+                <input type="text" name="name" placeholder="Votre nom" required />
+              </label>
+              <label class="field">
+                <span>Email</span>
+                <input type="email" name="email" placeholder="Votre email" required />
+              </label>
+            </div>
 
-          <label>
-            Message
-            <textarea name="message" rows="6" placeholder="Écrivez votre message ici..." required></textarea>
-          </label>
+            <div class="form-row">
+              <label class="field">
+                <span>Téléphone</span>
+                <input type="tel" name="phone" placeholder="Votre téléphone" />
+              </label>
+              <label class="field">
+                <span>Sujet</span>
+                <input type="text" name="subject" placeholder="Objet du message" required />
+              </label>
+            </div>
 
-          <button type="submit">Envoyer</button>
-        </form>
+            <label class="field">
+              <span>Message</span>
+              <textarea name="message" rows="6" placeholder="Écrivez votre message ici..." required></textarea>
+            </label>
+
+            <button type="submit" class="form-submit">Envoyer</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-links">
+        <a href="#accueil">Accueil</a>
+        <a href="#a-propos">À propos</a>
+        <a href="#competences">Compétences</a>
+        <a href="#parcours">Parcours</a>
+      </div>
+
+      <div class="social-links" aria-label="Réseaux sociaux">
+        <a href="https://wa.me/" target="_blank" rel="noreferrer" aria-label="WhatsApp">
+          <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/whatsapp.svg" alt="WhatsApp" />
+        </a>
+        <a href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook">
+          <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/facebook.svg" alt="Facebook" />
+        </a>
+        <a href="https://github.com" target="_blank" rel="noreferrer" aria-label="GitHub">
+          <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/github.svg" alt="GitHub" />
+        </a>
+        <a href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+          <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/linkedin.svg" alt="LinkedIn" />
+        </a>
+        <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram">
+          <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" />
+        </a>
       </div>
     </div>
-  </div>
-
-  <div class="footer">
-    <div class="footer-links">
-      <a href="#" onclick="showTab('accueil')">Accueil</a>
-      <a href="#" onclick="showTab('histoire')">A propos de moi</a>
-      <a href="#" onclick="showTab('competences')">Compétences</a>
-      <a href="#" onclick="showTab('parcour')">Parcour school</a>
-    </div>
-
-    <div class="footer-socials">
-      <a href="https://wa.me/" target="_blank" aria-label="WhatsApp">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/whatsapp.svg" alt="WhatsApp" />
-      </a>
-      <a href="https://facebook.com" target="_blank" aria-label="Facebook">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/facebook.svg" alt="Facebook" />
-      </a>
-      <a href="https://github.com" target="_blank" aria-label="GitHub">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/github.svg" alt="GitHub" />
-      </a>
-      <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/linkedin.svg" alt="LinkedIn" />
-      </a>
-      <a href="https://instagram.com" target="_blank" aria-label="Instagram">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" />
-      </a>
-    </div>
-  </div>
+  </footer>
 
   <script>
-    const tabs = document.querySelectorAll('.tab');
-    const panels = document.querySelectorAll('.panel');
+    const dynamicText = document.querySelector('.dynamic-text');
+    if (dynamicText) {
+      const phrases = JSON.parse(dynamicText.dataset.texts || '[]');
+      let phraseIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
 
-    function showTab(target) {
-      tabs.forEach(btn => btn.classList.remove('active'));
-      panels.forEach(panel => panel.classList.remove('active'));
+      const typeLoop = () => {
+        const current = phrases[phraseIndex] || '';
 
-      const selectedTab = document.querySelector(`.tab[data-tab="${target}"]`);
-      const selectedPanel = document.getElementById(target);
+        if (!isDeleting) {
+          charIndex++;
+          dynamicText.textContent = current.slice(0, charIndex);
+          if (charIndex === current.length) {
+            isDeleting = true;
+            setTimeout(typeLoop, 1400);
+            return;
+          }
+        } else {
+          charIndex--;
+          dynamicText.textContent = current.slice(0, charIndex);
+          if (charIndex === 0) {
+            isDeleting = false;
+            phraseIndex = (phraseIndex + 1) % phrases.length;
+          }
+        }
 
-      if (selectedTab) selectedTab.classList.add('active');
-      if (selectedPanel) selectedPanel.classList.add('active');
+        const speed = isDeleting ? 60 : 110;
+        setTimeout(typeLoop, speed);
+      };
+
+      if (phrases.length) typeLoop();
     }
 
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        showTab(tab.dataset.tab);
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    if (navToggle && navMenu) {
+      navToggle.addEventListener('click', () => {
+        const isOpen = navMenu.classList.toggle('is-open');
+        navToggle.classList.toggle('is-open', isOpen);
+        navToggle.setAttribute('aria-expanded', String(isOpen));
       });
-    });
+
+      navLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+          navMenu.classList.remove('is-open');
+          navToggle.classList.remove('is-open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+
+    const sections = document.querySelectorAll('main section[id]');
+    const headerOffset = 90;
+
+    const setActiveLink = () => {
+      let currentSectionId = 'accueil';
+
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= headerOffset && rect.bottom >= headerOffset) {
+          currentSectionId = section.id;
+        }
+      });
+
+      navLinks.forEach((link) => {
+        const isActive = link.getAttribute('href') === `#${currentSectionId}`;
+        link.classList.toggle('active', isActive);
+      });
+    };
+
+    window.addEventListener('scroll', setActiveLink, { passive: true });
+    setActiveLink();
 
     const contactForm = document.getElementById('contactForm');
-
     if (contactForm) {
       contactForm.addEventListener('submit', (event) => {
         event.preventDefault();
@@ -693,7 +737,6 @@
         const phone = formData.get('phone')?.toString().trim() || '';
         const subject = formData.get('subject')?.toString().trim() || 'Nouveau message';
         const message = formData.get('message')?.toString().trim() || '';
-
         const body = `Nom: ${name}%0D%0AEmail: ${email}%0D%0ATéléphone: ${phone}%0D%0ASujet: ${subject}%0D%0A%0D%0AMessage:%0D%0A${message}`;
 
         window.location.href = `mailto:joelunyuthi@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
